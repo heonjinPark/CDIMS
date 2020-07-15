@@ -13,7 +13,7 @@
 - Server : Apache Tomcat 8.5
 - DB : Oracle11g R2 (RDB)
 - Framework/Flatform : Spring MVC, SpringSecurity, MyBatis, Bootstrap, jQuery, Docker 2.3.0.3
-- Language : JAVA, Javascript, HTML, CSS
+- Language : JAVA, Javascript, HTML5, CSS3
 - Tool : Eclipse, GitHub, Git(SourceTree), SQL Developer
 
 ## 내용

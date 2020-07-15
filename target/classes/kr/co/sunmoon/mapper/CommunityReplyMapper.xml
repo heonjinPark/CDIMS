@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.sunmoon.mapper.CommunityReplyMapper">
+	<insert id="insert">
+		insert into q_a_reply_tbl (rno, bno, reply, replyer, writer) values (SEQ_Q_A_REPLY.nextval, #{bno}, #{reply}, #{replyer}, #{writer})
+	</insert>
+	
+	<select id="read" resultType="kr.co.sunmoon.domain.ReplyVO">
+		select rno, bno, reply, replyer, replydate, updatedate, writer from q_a_reply_tbl where rno = #{rno}
+	</select>
+	
+	<select id="getListWithPaging" resultType="kr.co.sunmoon.domain.ReplyVO">
+	<![CDATA[
+		select bno, rno, reply, replyer, replydate, updatedate, writer
+    from (select /*+INDEX(q_a_reply_tbl idx_reply)*/ rownum rn, bno, rno, reply, replyer, replyDate, updatedate, writer 
+        from q_a_reply_tbl
+        where bno = #{bno} and rno > 0 and rownum <= #{cri.pageNum} * #{cri.amount}
+    ) where rn > (#{cri.pageNum} - 1) * #{cri.amount}
+	]]>
+	</select>
+	
+	<select id="getCountByBno" resultType="int">
+		select count(rno) from q_a_reply_tbl where bno = #{bno}
+	</select>
+	
+	<delete id="delete">
+		delete from q_a_reply_tbl where rno = #{rno}
+	</delete>
+	
+	<delete id="bnoDelete">
+		delete from q_a_reply_tbl where bno = #{bno}
+	</delete>
+	
+	<update id="update">
+		update q_a_reply_tbl set reply = #{reply}, updatedate = sysdate where rno = #{rno}
+	</update>
+</mapper>

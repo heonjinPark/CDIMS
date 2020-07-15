@@ -1,0 +1,66 @@
+.navbar {
+	background-color: #222833;
+}
+
+a {
+	text-decoration: none;
+}
+
+#menu-title {
+	font-size: 110%;
+}
+
+.list {
+	font-weight: bolder;
+}
+
+#img {
+	width: 100px;
+	height: 23px;
+	margin: 14px;
+}
+
+#login_name {
+	color: white;
+	margin: 14px;
+	height: 23px;
+}
+
+#login_button {
+	background-color: #3ac984;
+	color: white;
+	font-weight: bolder;
+	border: 0;
+	padding: 13px;
+}
+
+.collapse {
+	float: right;
+}
+
+.container {
+	overflow: hidden;
+}
+
+.navbar-header {
+	display: inline;
+}
+
+.list-group-item {
+	line-height: 3em;
+	font-weight: bolder;
+}
+
+table {
+	table-layout: fixed;
+	word-break: break-all;
+}
+
+.cap {
+	font-weight: bolder;
+	font-size: 20px;
+}
+
+.success {
+	font-weight: bold;
+}

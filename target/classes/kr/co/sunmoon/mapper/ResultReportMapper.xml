@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.sunmoon.mapper.ResultReportMapper">
+
+	<!-- 결과보고 리스트 목록 출력 sql문 -->
+	<select id="getList" resultType="kr.co.sunmoon.domain.ResultReportVO">
+		select R.bno, R.teamno, R.projecttitle, R.teamname, S.division, S.professorcharge, R.approval 
+			from result_report_tbl R join subjects_tbl S on R.bno = S.bno 
+    		where S.year = #{year} and S.semester = #{semester} and S.subjectname = #{subjectname} and S.division = #{division}
+	</select>
+	
+	<!-- subjects_tbl PK(bno) 값 출력 sql -->
+	<select id="subjectNum" resultType="int">
+		select bno from subjects_tbl where year = #{year} and semester = #{semester} 
+			and subjectname = #{subjectname} and division = #{division}
+	</select>
+
+	<!-- select -->
+	<select id="rsRead" resultType="kr.co.sunmoon.domain.ResultReportVO"> 
+		select * from 
+			subjects_tbl S join result_report_tbl R on S.bno = R.bno 
+			left join result_company_conn_tbl C on R.teamno = C.teamno
+			where S.bno = #{bno} and R.teamno = #{teamno}
+	</select>
+	
+	<select id="rsTeamRead" resultType="kr.co.sunmoon.domain.ResultReportTeamVO">
+		select * from result_team_tbl where teamno = #{teamno}
+	</select>
+	
+	
+	<!-- insert -->
+	<insert id="resultReportInsert" parameterType="kr.co.sunmoon.domain.ResultReportVO" useGeneratedKeys="true">
+		<selectKey keyProperty="teamno" order="BEFORE" resultType="int">
+			select seq_result_team.nextval from dual
+		</selectKey>
+		insert into result_report_tbl (teamno, bno, teamname, assigntype, projecttitle, applyfee, writer, approval) 
+        values(#{teamno}, #{bno}, #{teamName}, #{assignType}, #{projectTitle}, #{applyFee}, #{writer}, '대기')
+	</insert>
+	<insert id="resultCompanyConnInsert">
+		insert into result_company_conn_tbl (teamno, type, company, ceo, license, business, postcode, address)  
+        values(#{teamno}, #{type}, #{company}, #{ceo}, #{license}, #{business}, #{postcode}, #{address})
+	</insert>
+	<insert id="resultTeamInsert">
+		<selectKey keyProperty="rtkey" order="BEFORE" resultType="int">
+			select seq_result_report_rsteam.nextval from dual
+		</selectKey>
+		insert into result_team_tbl (rtkey, teamno, department, studentid, grade, name, phonenumber, email)  
+        values(#{rtkey}, #{teamno}, #{department}, #{studentId}, #{grade}, #{name}, #{phoneNumber}, #{email})
+	</insert>
+	
+	
+	<!-- update -->
+	<update id="resultReportUpdate">
+		update result_report_tbl set teamname = #{teamName}, assigntype = #{assignType}, projecttitle = #{projectTitle},
+    		applyfee = #{applyFee}, writer = #{writer}, approval = '대기' where teamno = #{teamno} and bno = #{bno}
+	</update>
+	<update id="resultCompanyConnUpdate">
+		update result_company_conn_tbl set type = #{type}, company = #{company}, ceo = #{ceo}, license = #{license},
+    		business = #{business}, postcode = #{postcode}, address = #{address} where teamno = #{teamno}
+	</update>
+	<update id="resultTeamUpdate">
+		update result_team_tbl set department = #{department}, studentid = #{studentId}, grade = #{grade}, name = #{name}, 
+    		phonenumber = #{phoneNumber}, email = #{email} where rtkey = #{rtkey}
+	</update>
+	
+	
+	<!-- delete -->
+	<delete id="resultReportDelete">
+		delete from result_report_tbl where teamno = #{teamno}
+	</delete>
+	<delete id="resultCompanyConnDelete">
+		delete from result_company_conn_tbl where teamno = #{teamno}
+	</delete>
+	<delete id="resultTeamDelete">
+		delete from result_team_tbl where rtkey = #{rtkey}
+	</delete>
+	
+	
+	<!-- 과목명 리스트 -->
+	<select id="subRead" resultType="kr.co.sunmoon.domain.ResultReportVO">
+		select DISTINCT subjectname from subjects_tbl
+	</select>
+	
+	<!-- 팀원 수 -->
+	<select id="teamCount" resultType="int">
+		select count(teamno) from result_team_tbl where teamno = #{teamno}
+	</select>
+	
+	<update id="approvalUpdate">
+		update result_report_tbl set approval = #{approval} where teamno = #{teamno}
+	</update>
+</mapper>

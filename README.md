@@ -16,3 +16,11 @@
 - Language : JAVA, Javascript, HTML, CSS
 - Tool : Eclipse, GitHub, Git(SourceTree), SQL Developer
 
+## 내용
+#### 구현 기능
+- 로그인 (교수(조교), 학생)
+
+- 커뮤니티 (공지사항, 양식 서류(첨부파일 기능), Q&A (댓글 기능)), 검색 (키워드)
+
+- 신청서 작성 (지원 신청서, 결과 보고서)
+    

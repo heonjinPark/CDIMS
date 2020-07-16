@@ -18,6 +18,8 @@
 
 ## 내용
 #### 구현 기능
+- 구현
+
 - 로그인 (교수(조교), 학생)
 
 - 커뮤니티 (공지사항, 양식 서류(첨부파일 기능), Q&A (댓글 기능)), 검색 (키워드)
@@ -27,15 +29,14 @@
 #### 산출물
 - 요구사항 정의서
 
-- ERD
-
-<img width="1299" alt="스크린샷 2020-07-16 오전 10 02 26" src="https://user-images.githubusercontent.com/68316076/87618878-de109e00-c755-11ea-9a50-be1294e5a447.png">
+![캡디통합관리_요구사항정의서](https://user-images.githubusercontent.com/68316076/87619085-4b243380-c756-11ea-91e3-6b97bf450be0.PNG)
 
 - 화면 흐름도
 
 <img width="982" alt="스크린샷 2020-07-16 오전 9 58 31" src="https://user-images.githubusercontent.com/68316076/87618863-d3560900-c755-11ea-8b80-78c1190ba0d9.png">
 
+- ERD <br>
+https://www.erdcloud.com/d/yTLGLXQKajRkhoXqy
 
-- 클래스 다이어그램
+<img width="1299" alt="스크린샷 2020-07-16 오전 10 02 26" src="https://user-images.githubusercontent.com/68316076/87618878-de109e00-c755-11ea-9a50-be1294e5a447.png">
 
-- 구현

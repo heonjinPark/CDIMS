@@ -31,7 +31,7 @@
 
 ![캡디통합관리_요구사항정의서](https://user-images.githubusercontent.com/68316076/87619085-4b243380-c756-11ea-91e3-6b97bf450be0.PNG)
 
-- 화면 흐름도
+- Flowchart
 
 <img width="982" alt="스크린샷 2020-07-16 오전 9 58 31" src="https://user-images.githubusercontent.com/68316076/87618863-d3560900-c755-11ea-8b80-78c1190ba0d9.png">
 

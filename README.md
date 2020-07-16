@@ -26,12 +26,15 @@
     
 #### 산출물
 - 요구사항 정의서
-<img width="982" alt="스크린샷 2020-07-16 오전 9 58 31" src="https://user-images.githubusercontent.com/68316076/87618863-d3560900-c755-11ea-8b80-78c1190ba0d9.png">
 
 - ERD
+
 <img width="1299" alt="스크린샷 2020-07-16 오전 10 02 26" src="https://user-images.githubusercontent.com/68316076/87618878-de109e00-c755-11ea-9a50-be1294e5a447.png">
 
 - 화면 흐름도
+
+<img width="982" alt="스크린샷 2020-07-16 오전 9 58 31" src="https://user-images.githubusercontent.com/68316076/87618863-d3560900-c755-11ea-8b80-78c1190ba0d9.png">
+
 
 - 클래스 다이어그램
 

@@ -25,6 +25,8 @@
 - 로그인 (교수(조교), 학생) <br/>
 
 Spring Security dependency 주입
+
+pom.xml 일부
 ~~~xml
         <!-- spring security -->
 	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
@@ -52,6 +54,8 @@ Spring Security dependency 주입
 		<version>5.0.6.RELEASE</version>
 ~~~
 로그인,자동 로그인, 로그아웃 설정
+
+security-context.xml 일부
 ~~~xml
 	<bean id="customLoginSuccess" class="kr.co.sunmoon.security.CustomLoginSuccessHandler"></bean>	
 
@@ -243,6 +247,7 @@ public int approvalUpdate(int teamno, String approval) {
 - 커뮤니티 (공지사항, 양식 서류(첨부파일 기능), Q&A (댓글 기능)), 검색 (키워드)
 <br/><br/>
 1. 양식 서류 게시판 첨부파일 기능 (Ajax 방식으로 처리)
+
 cdims_form_document_write.jsp 일부
 ~~~js
 // controller로 데이터 넘김

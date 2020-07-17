@@ -22,11 +22,40 @@
 #### 구현 기능
 - 구현
 
-- 로그인 (교수(조교), 학생)
+- 로그인 (교수(조교), 학생) <br/>
 
-- 커뮤니티 (공지사항, 양식 서류(첨부파일 기능), Q&A (댓글 기능)), 검색 (키워드)
+Spring Security dependency 주입
+~~~xml
+        <!-- spring security -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>5.0.6.RELEASE</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>5.0.6.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>5.0.6.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>5.0.6.RELEASE</version>
+~~~
+
 
 - 신청서 작성 (지원 신청서, 결과 보고서)
+
+- 커뮤니티 (공지사항, 양식 서류(첨부파일 기능), Q&A (댓글 기능)), 검색 (키워드)
     
 #### 산출물
 - 요구사항 정의서

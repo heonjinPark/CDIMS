@@ -65,7 +65,7 @@ Spring Security dependency 주입
 1. 지원신청서, 결과보고서 목록 REST 방식을 이용해 (년도, 학기, 과목, 분반) 데이터를 보내 결과 리스트를 json 형태로 데이터 가져옴 
 
 cdims_result_report.jsp 일부
-~~~jsp
+~~~js
 $(document).on('click', '#searchBtn', function() {
 			
 	var yearValue = document.querySelector('#year').value;
@@ -153,7 +153,7 @@ public List<ResultReportVO> getList(String year, String semester, String subject
 <br/><br/>
 2. 지원신청서, 결과보고서 조회페이지에서 해당 담당 교수일 경우 승인 및 취소(대기) 처리 가능 <br/>
 cdims_result_report_get.jsp 
-~~~jsp
+~~~js
 	//CSRF 토큰 처리
 	var csrfHeaderName = "${_csrf.headerName}";
 	var csrfTokenValue = "${_csrf.token}";
@@ -239,8 +239,244 @@ public int approvalUpdate(int teamno, String approval) {
 	return resultreportMapper.approvalUpdate(teamno, approval); 
 }
 ~~~
-
+---
 - 커뮤니티 (공지사항, 양식 서류(첨부파일 기능), Q&A (댓글 기능)), 검색 (키워드)
+<br/><br/>
+1. 양식 서류 게시판 첨부파일 기능 (Ajax 방식으로 처리)
+cdims_form_document_write.jsp 일부
+~~~js
+// controller로 데이터 넘김
+  $("input[type='submit']").on("click", function(e){
+    console.log("submit clicked");
+    var str = "";
+    
+    $(".uploadResult ul li").each(function(i, obj){
+      var jobj = $(obj);
+      
+      console.dir(jobj.data("image"));
+      console.log("-------------------------");
+      console.log(jobj.data("filename"));
+      
+      str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
+      str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
+      str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
+      str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+ jobj.data("type")+"'>";
+      
+    });
+
+    console.log("str: " + str);
+    
+    formObj.append(str);
+    
+  });
+
+  
+  var regex = new RegExp("(.*?)\.(exe|sh|alz)$");
+  var maxSize = 90242880; //90MB
+  
+  // 파일 사이즈 및 종류 체크
+  function checkExtension(fileName, fileSize){
+    if(fileSize >= maxSize){
+      alert("파일 사이즈 초과");
+      return false;
+    }
+    
+    if(regex.test(fileName)){
+      alert("해당 종류의 파일은 업로드할 수 없습니다.");
+      return false;
+    }
+    return true;
+  }
+  
+  var csrfHeaderName = "${_csrf.headerName}";
+  var csrfTokenValue = "${_csrf.token}";
+  
+  $("input[type='file']").change(function(e){
+
+    var formData = new FormData();
+    
+    var inputFile = $("input[name='uploadFile']");
+    
+    var files = inputFile[0].files;
+    
+    for(var i = 0; i < files.length; i++){
+
+      if(!checkExtension(files[i].name, files[i].size) ){
+        return false;
+      }
+      formData.append("uploadFile", files[i]);
+      
+    }
+    
+    $.ajax({
+      url: '/fd_upload/uploadAjaxAction',
+      processData: false, 
+      contentType: false,
+      beforeSend: function(xhr) { // Ajax로 데이터를 전송할 때 추가적인 헤더를 지정해서 전송
+    	  xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+      },
+      data: formData,
+      type: 'POST',
+      dataType:'json',
+        success: function(result){
+          console.log("result : " + result);
+		  showUploadResult(result); //업로드 결과 처리 함수 
+
+      }
+    }); //$.ajax
+    
+    
+    // 클라이언트(화면)에 바로 해당 파일 보여주기
+  function showUploadResult(uploadResultArr){
+    if(!uploadResultArr || uploadResultArr.length == 0){ return; }
+    
+    var uploadUL = $(".uploadResult ul");
+    
+    var str ="";
+    
+    $(uploadResultArr).each(function(i, obj){
+		var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);			       
+	      
+		str += "<li "
+		str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.fileType+"' ><div>";
+		str += "<span> "+ obj.fileName+"</span>";
+		str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' " 
+		str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+		str += "<img src='/resources/img/attach.png'></a>";
+		str += "</div>";
+		str +"</li>";
+
+    });
+    
+    uploadUL.append(str);
+    
+    // 클라이언트(화면)에서 파일 삭제
+  $(".uploadResult").on("click", "button", function(e){
+	    
+    console.log("delete file");
+      
+    var targetFile = $(this).data("file"); 
+    var type = $(this).data("type"); 
+    
+    var targetLi = $(this).closest("li");
+    
+    $.ajax({
+      url: '/fd_upload/deleteFile',
+      data: {fileName: targetFile, type:type},
+      beforeSend: function(xhr) { // Ajax로 데이터를 전송할 때 추가적인 헤더를 지정해서 전송
+    	  xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+      },
+      dataType:'text',
+      type: 'POST',
+        success: function(result){
+           console.log("result : " + result);
+           targetLi.remove(); // Controller로 전송할 데이터 파일 삭제
+         }
+    }); //$.ajax
+   });
+~~~
+FormDocumentController.java 일부
+~~~java
+// 게시판 작성 데이터와 함께 전송
+@PostMapping("/cdims_form_document_write")
+@PreAuthorize("isAuthenticated()")
+public String register(BoardVO board, RedirectAttributes rttr) {
+
+	log.info("form register : " + board);
+
+	log.info("attach list : " + board.getAttachList());
+	if (board.getAttachList() != null) {
+		board.getAttachList().forEach(attach -> log.info("attach : " + attach));
+	}
+
+	formDocService.register(board);
+	rttr.addFlashAttribute("result", board.getBno()); // list에서 등록 성공 모달창에 출력할 게시글 번호 전달
+
+	return "redirect:/community/cdims_form_document";
+}
+
+@PostMapping("/cdims_form_document_delete")
+@PreAuthorize("principal.username == #writer")
+public String remove(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr,
+		String writer) {
+	log.info("/cdims_form_document_remove");
+
+	List<BoardAttachVO> attachList = formDocService.getAttachList(bno);
+	
+	//첨부 파일 삭제
+	if (formDocService.remove(bno)) {
+		deleteFiles(attachList); // delete Attach Files
+
+		rttr.addAttribute("result", "success");
+	}
+
+	rttr.addAttribute("pageNum", cri.getPageNum());
+	rttr.addAttribute("amount", cri.getAmount());
+	rttr.addAttribute("keyword", cri.getKeyword());
+	rttr.addAttribute("type", cri.getType());
+
+	return "redirect:/community/cdims_form_document" + cri.getListLink();
+}
+	
+// 첨부 파일 삭제 메소드
+private void deleteFiles(List<BoardAttachVO> attachList) {
+	if (attachList == null || attachList.size() == 0) {
+		return;
+	}
+
+	log.info("delete attach files...");
+	log.info(attachList);
+
+	attachList.forEach(attach -> {
+		try {
+			// 첨부파일 경로
+			Path file = Paths.get("/Users/parkheonjin/Desktop/upload/formDoc/" +
+					attach.getUploadPath() + "/" + attach.getUuid() + "_" + attach.getFileName());
+			Files.deleteIfExists(file);
+			log.info("FILE PATH : " + file);
+
+		} catch (Exception e) {
+			log.error("delete file error : " + e.getMessage());
+		} //end catch
+	}); //end foreach
+}
+~~~
+FormDocumentServiceImpl.java 일부
+~~~java
+@Override
+public void register(BoardVO board) {
+	log.info("service register : " + board);
+	formDocMapper.insertSelectKey(board);
+
+	if (board.getAttachList() == null || board.getAttachList().size() <= 0) {
+		return;
+	}
+	// 첨부파일 데이터 저장
+	board.getAttachList().forEach(attach -> {
+		attach.setBno(board.getBno());
+		fdAttachMapper.insert(attach);
+	});
+}
+
+
+@Override
+public boolean remove(Long bno) {
+	log.info("service remove : " + bno);
+
+	// 해당 게시물 모든 첨부파일 삭제
+	fdAttachMapper.deleteAll(bno);
+
+	return formDocMapper.delete(bno) == 1;
+}
+
+
+@Override
+public List<BoardAttachVO> getAttachList(Long bno) {
+	log.info("get Attach list by bno : " + bno);
+
+	return fdAttachMapper.findByBno(bno); // 게시물의 첨부 파일 데이터 가져옴
+}
+~~~
     
 #### 산출물
 - 요구사항 정의서

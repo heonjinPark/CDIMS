@@ -30,6 +30,7 @@ public class FormDocumentServiceImpl implements FormDocumentService {
 		if (board.getAttachList() == null || board.getAttachList().size() <= 0) {
 			return;
 		}
+		// 첨부파일 데이터 저장
 		board.getAttachList().forEach(attach -> {
 			attach.setBno(board.getBno());
 			fdAttachMapper.insert(attach);

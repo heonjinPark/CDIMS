@@ -25,7 +25,7 @@
 					<div>
 						<label for="year"> 년도 </label><span style="color: red;"> * </span>
 						<select id="year" name="year">
-							<c:forEach var="item" begin="1990" end="2025" step="1">
+							<c:forEach var="item" begin="2020" end="2025" step="1">
 								<c:choose>
 									<c:when test="${item eq 2020}">
 										<option selected="selected">${item}</option>

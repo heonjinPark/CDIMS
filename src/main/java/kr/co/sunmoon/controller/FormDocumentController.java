@@ -135,6 +135,7 @@ public class FormDocumentController {
 		
 		attachList.forEach(attach -> {
 			try {
+				// 첨부파일 경로
 				Path file = Paths.get("/Users/parkheonjin/Desktop/upload/formDoc/" +
 						attach.getUploadPath() + "/" + attach.getUuid() + "_" + attach.getFileName());
 				Files.deleteIfExists(file);

@@ -70,6 +70,7 @@
 $(document).ready(function(e) {  
   var formObj = $("form[role='form']");
   
+  // controller로 데이터 넘김
   $("input[type='submit']").on("click", function(e){
     console.log("submit clicked");
     var str = "";
@@ -95,11 +96,11 @@ $(document).ready(function(e) {
   });
 
   
-  var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+  var regex = new RegExp("(.*?)\.(exe|sh|alz)$");
   var maxSize = 90242880; //90MB
   
+  // 파일 사이즈 및 종류 체크
   function checkExtension(fileName, fileSize){
-    
     if(fileSize >= maxSize){
       alert("파일 사이즈 초과");
       return false;
@@ -151,6 +152,7 @@ $(document).ready(function(e) {
     
   });  
   
+  // 클라이언트(화면)에 바로 해당 파일 보여주기
   function showUploadResult(uploadResultArr){
     if(!uploadResultArr || uploadResultArr.length == 0){ return; }
     
@@ -175,6 +177,7 @@ $(document).ready(function(e) {
     uploadUL.append(str);
   }
 
+  // 클라이언트(화면)에서 파일 삭제
   $(".uploadResult").on("click", "button", function(e){
 	    
     console.log("delete file");
@@ -194,7 +197,7 @@ $(document).ready(function(e) {
       type: 'POST',
         success: function(result){
            console.log("result : " + result);
-           targetLi.remove();
+           targetLi.remove(); // Controller로 전송할 데이터 파일 삭제
          }
     }); //$.ajax
    });

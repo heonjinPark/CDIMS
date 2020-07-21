@@ -142,7 +142,8 @@
 								class="btn btn-default pull-right">승인</button>
 				</sec:authorize>
 		
-				<form id="frm" action="" method="">
+				<form id="frm" action="/apply_support/cdims_apply_support_delete" method="post">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 					<input type="hidden" name="bno" value="${resultvo.bno }" />
 					<input type="hidden" name="teamno" value="${resultvo.teamno }" />
 					<input type="hidden" name="writer" value="${resultvo.writer }" />
@@ -207,9 +208,8 @@
 		
 		/* 삭제버튼 */
 		$("button[data-oper='delete']").on("click", function(e) {
-			/* var approvalStatus = {teamno : teamno, approval : "승인대기"}; */
-			frm.attr("action", "/apply_support/cdims_apply_support_delete");
-			frm.attr("method", "post");
+			/* frm.attr("action", "/apply_support/cdims_apply_support_delete");
+			frm.attr("method", "post"); */
 			frm.submit();
 		});
 		

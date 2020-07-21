@@ -190,9 +190,9 @@
 			xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 		});
 		
-		// 작성자
 		var writer = null;
 		<sec:authorize access="isAuthenticated()">
+			// 작성자 (담당교수)
 			writer = '<sec:authentication property="principal.username"/>';
 		</sec:authorize>
 		

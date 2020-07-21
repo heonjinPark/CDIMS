@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.sunmoon.mapper.NoticeMapper">
+	
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%' ||#{keyword}|| '%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%' ||#{keyword}|| '%'
+						</when>
+						<when test="type == 'W'.toString()">
+							writer like '%' ||#{keyword}|| '%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	<select id="getListwithPaging" resultType="kr.co.sunmoon.domain.BoardVO">
+		<![CDATA[
+			select bno, title, content, name, writer, regdate, updatedate
+			from
+			(
+				select /*+ INDEX_DESC(notice_tbl pk_noticetbl_bno) */ rownum rn, bno, title, content, name, writer, regdate, updatedate
+				from
+					notice_tbl
+				where
+		]]>
+		
+		<include refid="criteria"></include>
+		
+		<![CDATA[
+			rownum <= #{pageNum} * #{amount}
+			)
+		where rn > (#{pageNum} - 1) * #{amount}
+		]]>
+	</select>
+		
+	<!-- insert가 실행되고 생성된 PK 값을 알아야 하는 경우 -->
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="bno" order="BEFORE" resultType="long">
+			select seq_notice.nextval from dual
+		</selectKey>
+		
+		insert into notice_tbl (bno, title, content, name, writer) values (#{bno}, #{title}, #{content}, #{name}, #{writer})
+	</insert>
+	
+	<select id="read" resultType="kr.co.sunmoon.domain.BoardVO">
+		select * from notice_tbl where bno = #{bno}
+	</select>
+	
+	<delete id="delete">
+		delete notice_tbl where bno = #{bno}
+	</delete>
+	
+	<update id="update">
+		update notice_tbl set
+		title = #{title},
+		content = #{content},
+		updateDate = sysdate where bno = #{bno}
+	</update>
+	
+	<!-- 페이징 처리할 때 마지막 페이징 번호 처리해야 할 경우 total 값 필요 -->
+	<select id="getTotalCount" resultType="int">
+		select count(*) from notice_tbl where
+		
+		<include refid="criteria"></include>
+		
+		bno > 0
+	</select>
+	
+	<update id="updateReplyCnt">
+		update notice_tbl set replycnt = replycnt + #{amount} where bno = #{bno}
+	</update>
+</mapper>

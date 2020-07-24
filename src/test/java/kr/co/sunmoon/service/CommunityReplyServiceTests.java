@@ -18,37 +18,37 @@ public class CommunityReplyServiceTests {
 	@Setter(onMethod_ = @Autowired)
 	private NoticeService noticeService;
 	
-//	@Test
-//	public void registerServiceTest() {
-//		BoardVO vo = new BoardVO();
-//		vo.setTitle("testTitle");
-//		vo.setContent("testContent");
-//		vo.setWriter("testUser00");
-//		
-//		noticeService.register(vo);
-//	}
+	@Test
+	public void registerServiceTest() {
+		BoardVO vo = new BoardVO();
+		vo.setTitle("testTitle");
+		vo.setContent("testContent");
+		vo.setWriter("testUser00");
+		
+		noticeService.register(vo);
+	}
 	
-//	@Test
-//	public void getServiceTest() {
-//		noticeService.get(897L);
-//	}
+	@Test
+	public void getServiceTest() {
+		noticeService.get(897L);
+	}
 	
-//	@Test
-//	public void modifyServiceTest() {
-//		BoardVO vo = new BoardVO();
-//		
-//		vo.setBno(889L);
-//		vo.setTitle("modifyTestTitle");
-//		vo.setContent("modifyTestContent");
-//		vo.setWriter("user01");
-//		
-//		noticeService.modify(vo);
-//	}
+	@Test
+	public void modifyServiceTest() {
+		BoardVO vo = new BoardVO();
+		
+		vo.setBno(889L);
+		vo.setTitle("modifyTestTitle");
+		vo.setContent("modifyTestContent");
+		vo.setWriter("user01");
+		
+		noticeService.modify(vo);
+	}
 	
-//	@Test
-//	public void removeServiceTest() {
-//		noticeService.remove(898L);
-//	}
+	@Test
+	public void removeServiceTest() {
+		noticeService.remove(898L);
+	}
 	
 	@Test
 	public void getListServiceTest() {

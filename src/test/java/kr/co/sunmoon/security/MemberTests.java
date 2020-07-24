@@ -30,28 +30,28 @@ public class MemberTests {
 	public void testInsertMember() {
 		String sql = "insert into member_auth_tbl(userid, auth) values (?, ?)";
 		
-//		for (int i = 0; i < 10; i++) {
-//			Connection conn = null;
-//			PreparedStatement pstmt = null;
-//			
-//			try {
-//				conn = ds.getConnection();
-//				pstmt = conn.prepareStatement(sql);
-//				
-//				pstmt.setString(1, "2014244200");
-//				pstmt.setString(2, pwEncoder.encode("pw200"));
-//				pstmt.setString(3, "최종수");
-//				
-//				pstmt.executeUpdate();
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			} finally {
-//				if (pstmt != null) {try {pstmt.close();}catch (Exception e) {} }
-//				if (conn != null) {try {conn.close();}catch (Exception e) {} }
-//			}
-//		}
+		for (int i = 0; i < 10; i++) {
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			
+			try {
+				conn = ds.getConnection();
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, "2014244200");
+				pstmt.setString(2, pwEncoder.encode("pw200"));
+				pstmt.setString(3, "최종수");
+				
+				pstmt.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (pstmt != null) {try {pstmt.close();}catch (Exception e) {} }
+				if (conn != null) {try {conn.close();}catch (Exception e) {} }
+			}
+		}
 		
-//		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 10; i++) {
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 			
@@ -69,7 +69,7 @@ public class MemberTests {
 				if (pstmt != null) {try {pstmt.close();}catch (Exception e) {} }
 				if (conn != null) {try {conn.close();}catch (Exception e) {} }
 			}
-//		}
+		}
 	}
 	
 }

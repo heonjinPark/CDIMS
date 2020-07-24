@@ -18,43 +18,30 @@ public class CommunityReplyMapperTests {
 	@Setter(onMethod_ = @Autowired)
 	private CommunityReplyService service;
 	
-//	@Test
-//	public void registerTest() {
-//		ReplyVO vo = new ReplyVO();
-//		vo.setBno(192L);
-//		vo.setReply("지원금은 다 써야 하나요?");
-//		vo.setReplyer("박수빈");
-//		
-//		service.register(vo);
-//	}
+	@Test
+	public void registerTest() {
+		ReplyVO vo = new ReplyVO();
+		vo.setBno(192L);
+		vo.setReply("지원금은 다 써야 하나요?");
+		vo.setReplyer("박수빈");
+		
+		service.register(vo);
+	}
 	
-//	@Test
-//	public void getTest() {
-//		service.get(7L);
-//		
-//	}
-	
-//	@Test
-//	public void modifyTest() {
-//		ReplyVO vo = new ReplyVO();
-//		vo.setRno(7L);
-//		vo.setReply("지원금은 다 써야 하나요? 수정");
-//		
-//		service.modify(vo);
-//		
-//	}
-	
-//	@Test
-//	public void modifyTest() {
-//		service.remove(7L);
-//		
-//	}
+	@Test
+	public void getTest() {
+		service.get(7L);
+		
+	}
 	
 	@Test
 	public void modifyTest() {
-		Criteria cri = new Criteria();
+		ReplyVO vo = new ReplyVO();
+		vo.setRno(7L);
+		vo.setReply("지원금은 다 써야 하나요? 수정");
 		
-		service.getListPage(cri, 192L);
+		service.modify(vo);
 		
 	}
+	
 }

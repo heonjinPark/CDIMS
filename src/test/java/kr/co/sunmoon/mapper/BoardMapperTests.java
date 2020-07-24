@@ -7,7 +7,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import kr.co.sunmoon.domain.BoardVO;
-import kr.co.sunmoon.mapper.NoticeMapper;
+import kr.co.sunmoon.domain.Criteria;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
@@ -18,32 +18,32 @@ public class BoardMapperTests {
 	@Setter(onMethod_ = @Autowired)
 	private NoticeMapper mapper;
 	
-//	@Test
-//	public void testGetList() {
-//		Criteria cri = new Criteria(2, 10);
-//		mapper.getListwithPaging(cri);
-//		
-//	}
+	@Test
+	public void testGetList() {
+		Criteria cri = new Criteria(2, 10);
+		mapper.getListwithPaging(cri);
+		
+	}
 	
-//	@Test
-//	public void testRead() {
-//		mapper.read(895L);
-//	}
+	@Test
+	public void testRead() {
+		mapper.read(895L);
+	}
 	
-//	@Test
-//	public void testDelete() {
-//		mapper.delete(896L);
-//	}
+	@Test
+	public void testDelete() {
+		mapper.delete(896L);
+	}
 	
-//	@Test
-//	public void testModify() {
-//		BoardVO vo = new BoardVO();
-//		vo.setBno(895L);
-//		vo.setTitle("수정합니다");
-//		vo.setContent("내용을 수정하는 테스트입니다");
-//		vo.setWriter("유저00");
-//		mapper.update(vo);
-//	}
+	@Test
+	public void testModify() {
+		BoardVO vo = new BoardVO();
+		vo.setBno(895L);
+		vo.setTitle("수정합니다");
+		vo.setContent("내용을 수정하는 테스트입니다");
+		vo.setWriter("유저00");
+		mapper.update(vo);
+	}
 	
 	@Test
 	public void testInsert() {
